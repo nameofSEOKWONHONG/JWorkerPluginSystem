@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>MailSednerWorker</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\eXtensionSharp\src\eXtensionSharp.csproj" />
+      <ProjectReference Include="..\..\JW2Library\JWLibrary\JWLibrary.csproj" />
+      <ProjectReference Include="..\JPlugin\JPlugin.csproj" />
+    </ItemGroup>
+
+<!--    <Target Name="CopyDll" AfterTargets="AfterBuild">-->
+<!--        <Copy SourceFiles="D:\workspace\JWWorkerPluginSystem\MailSender\bin\Debug\net5.0\*.*" DestinationFolder="D:\workspace\JWWorkerPluginSystem\JWWorkerPluginSystem\bin\Debug\net5.0\plugins\MailSender\*.*" />-->
+<!--    </Target>-->
+</Project>
