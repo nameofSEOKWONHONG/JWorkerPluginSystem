@@ -31,6 +31,7 @@ namespace MailSender
         public object Execute()
         {
             Console.WriteLine("Mail Sender : Execute");
+            throw new Exception("Test Mail Sender Exception");
             return null;
         }
 

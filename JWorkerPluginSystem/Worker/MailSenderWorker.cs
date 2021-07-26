@@ -19,7 +19,15 @@ namespace JWorkerPluginSystem
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                JPluginLoaderInstance.PluginLoader.Execute<string>("MailSender", "seokwon");
+                try
+                {
+                    JPluginLoaderInstance.PluginLoader.Execute<string>("MailSender", "seokwon");
+                }
+                catch (Exception e)
+                {
+                    
+                }
+
                 _logger.LogInformation("Mail Sender running at: {time}", DateTimeOffset.Now);
                 await Task.Delay(1000, stoppingToken);
             }

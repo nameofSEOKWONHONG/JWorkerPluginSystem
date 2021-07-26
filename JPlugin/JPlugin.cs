@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,36 +7,7 @@ using McMaster.NETCore.Plugins;
 
 namespace JPlugin
 {
-    public class JPluginLoaderInstance
-    {
-        private static Lazy<JPluginLoaderInstance> jPluginLoader = new Lazy<JPluginLoaderInstance>(() => new JPluginLoaderInstance());
 
-        public static JPluginLoaderInstance PluginLoader
-        {
-            get
-            {
-                return jPluginLoader.Value;
-            }
-        }
-
-        private readonly JPluginLoader _pluginLoader;
-
-        public JPluginLoaderInstance()
-        {
-            this._pluginLoader = new JPluginLoader();
-        }
-
-        public bool AddLoader(string dllName)
-        {
-            return this._pluginLoader.AddLoader(dllName);
-        }
-
-        public object Execute<TRequest>(string dllName, TRequest param)
-        {
-            return this._pluginLoader.Execute<TRequest>(dllName, param);
-        }
-
-    }
     
     internal class JPluginLoader
     {
@@ -117,24 +89,32 @@ namespace JPlugin
                     var plugin = (IJPlugin) Activator.CreateInstance(pluginType);
                     if (plugin != null)
                     {
-                        //set request data
-                        plugin.SetRequest<TRequest>(param);
-                        
-                        //validation request data
-                        if (plugin.Validate())
+                        try
                         {
-                            // pre execute
-                            if (plugin.PreExecute())
+                            //set request data
+                            plugin.SetRequest<TRequest>(param);
+
+                            //validation request data
+                            if (plugin.Validate())
                             {
-                                // main execute
-                                var result = plugin.Execute();
-                                
-                                // after execute (need modify data)
-                                plugin.AfterExecute();
-                                
-                                // return result;
-                                return result;
+                                // pre execute
+                                if (plugin.PreExecute())
+                                {
+                                    // main execute
+                                    var result = plugin.Execute();
+
+                                    // after execute (need modify data)
+                                    plugin.AfterExecute();
+
+                                    // return result;
+                                    return result;
+                                }
                             }
+                        }
+                        catch (Exception e)
+                        {
+                            exists.PluginError.HasError = true;
+                            exists.PluginError.ExceptionMessage = e.Message;
                         }
                     }
                     //Console.WriteLine($"Created plugin instance '{plugin.Run("seokwon")}'.");
@@ -142,6 +122,29 @@ namespace JPlugin
             }
 
             return null;
+        }
+
+        public PluginError HasError(string dllName)
+        {
+            var exists = PluginLoaders.FirstOrDefault(m => m.DllName == dllName);
+            if (exists != null)
+            {
+                return exists.PluginError;
+            }
+
+            return null;
+        }
+
+        public IEnumerable<PluginError> HasErrors()
+        {
+            var results = new List<PluginError>();
+            var errors = PluginLoaders.Where(m => m.PluginError.HasError == true);
+            foreach (var item in errors)
+            {
+                results.Add(item.PluginError);
+            }
+
+            return results;
         }
     }
 }
