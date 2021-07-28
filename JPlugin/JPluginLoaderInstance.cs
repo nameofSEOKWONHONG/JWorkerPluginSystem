@@ -1,46 +1,38 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace JPlugin
 {
     public class JPluginLoaderInstance
     {
-        private static Lazy<JPluginLoaderInstance> jPluginLoader = new Lazy<JPluginLoaderInstance>(() => new JPluginLoaderInstance());
-
-        public static JPluginLoaderInstance PluginLoader
-        {
-            get
-            {
-                return jPluginLoader.Value;
-            }
-        }
+        private static readonly Lazy<JPluginLoaderInstance> jPluginLoader = new(() => new JPluginLoaderInstance());
 
         private readonly JPluginLoader _pluginLoader;
 
-        public JPluginLoaderInstance()
+        private JPluginLoaderInstance()
         {
-            this._pluginLoader = new JPluginLoader();
+            _pluginLoader = new JPluginLoader();
         }
+
+        public static JPluginLoaderInstance PluginLoader => jPluginLoader.Value;
 
         public bool AddLoader(string dllName)
         {
-            return this._pluginLoader.AddLoader(dllName);
+            return _pluginLoader.AddLoader(dllName);
         }
 
-        public object Execute<TRequest>(string dllName, TRequest param)
+        public bool Exists(string dllName)
         {
-            return this._pluginLoader.Execute<TRequest>(dllName, param);
+            var exists = _pluginLoader.PluginLoaders.FirstOrDefault(m => m.DllName == dllName);
+            if (exists != null) return true;
+
+            return false;
         }
 
-        public PluginError HasError(string dllName)
+        public object Execute<TRequest>(string dllName, TRequest param, ILogger logger = null)
         {
-            return this._pluginLoader.HasError(dllName);
-        }
-
-        public IEnumerable<PluginError> HasErrors()
-        {
-            return this._pluginLoader.HasErrors();
+            return _pluginLoader.Execute(dllName, param, logger);
         }
     }
 }

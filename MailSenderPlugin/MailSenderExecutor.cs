@@ -2,28 +2,26 @@
 using eXtensionSharp;
 using JPlugin;
 
-namespace MailSender
+namespace MailSenderPlugin
 {
-    public class MailSenderExecutor : IJPlugin
+    public class MailSenderExecutor : IPlugin
     {
         private string _request = string.Empty;
+
         public void SetRequest<TRequest>(TRequest request)
         {
             _request = request as string;
         }
-        
+
         public bool Validate()
         {
-            if (this._request.xIsNull())
-            {
-                return false;
-            }
+            if (_request.xIsNull()) return false;
             return true;
         }
-        
+
         public bool PreExecute()
         {
-            if(this._request.xIsNotNull()) Console.WriteLine(this._request);
+            if (_request.xIsNotNull()) Console.WriteLine(_request);
             Console.WriteLine("Mail Sender : PreExecute");
             return true;
         }

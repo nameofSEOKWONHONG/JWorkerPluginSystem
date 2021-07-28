@@ -1,0 +1,11 @@
+﻿[
+  {
+    "DllName": "MailSenderPlugin"
+  },
+  {
+    "DllName": "SmsSenderPlugin"
+  },
+  {
+    "DllName": "KakaoSenderPlugin"
+  }
+]
