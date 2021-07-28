@@ -17,23 +17,23 @@ namespace JWorkerPluginSystem.Controller
             this._logger = logger;
         }
 
-        [HttpGet]
-        public PluginError GetErrorLoader(string dllName)
-        {
-            return JPluginLoaderInstance.PluginLoader.HasError(dllName);
-        }
+        // [HttpGet]
+        // public PluginError GetErrorLoader(string dllName)
+        // {
+        //     return JPluginLoaderInstance.PluginLoader.HasError(dllName);
+        // }
 
-        [HttpGet]
-        public IEnumerable<PluginError> GetErrorLoaders()
-        {
-            return JPluginLoaderInstance.PluginLoader.HasErrors();
-        }
+        // [HttpGet]
+        // public IEnumerable<PluginError> GetErrorLoaders()
+        // {
+        //     return JPluginLoaderInstance.PluginLoader.HasErrors();
+        // }
 
-        [HttpPost]
-        public bool SetAddLoader(string dllName)
-        {
-            JPluginLoaderInstance.PluginLoader.AddLoader(dllName);
-            return true;
-        }
+        // [HttpPost]
+        // public bool SetAddLoader(string dllName)
+        // {
+        //     JPluginLoaderInstance.PluginLoader.AddLoader(dllName);
+        //     return true;
+        // }
     }
 }

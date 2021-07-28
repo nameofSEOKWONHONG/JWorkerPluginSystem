@@ -20,10 +20,9 @@ namespace PushSenderPlugin
             return true;
         }
 
-        public object Execute()
+        public void Execute()
         {
             Console.WriteLine("push sender execute");
-            return null;
         }
 
         public bool AfterExecute()

@@ -24,7 +24,7 @@
         ///     main execute
         /// </summary>
         /// <returns></returns>
-        object Execute();
+        void Execute();
 
         /// <summary>
         ///     after execute

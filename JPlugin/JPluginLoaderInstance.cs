@@ -30,9 +30,9 @@ namespace JPlugin
             return false;
         }
 
-        public object Execute<TRequest>(string dllName, TRequest param, ILogger logger = null)
+        public void Execute<TRequest>(string dllName, TRequest param, ILogger logger = null)
         {
-            return _pluginLoader.Execute(dllName, param, logger);
+            _pluginLoader.Execute(dllName, param, logger);
         }
     }
 }

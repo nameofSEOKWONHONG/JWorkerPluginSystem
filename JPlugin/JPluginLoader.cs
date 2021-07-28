@@ -71,7 +71,7 @@ namespace JPlugin
             return false;
         }
 
-        public object Execute<TRequest>(string dllName, TRequest param, ILogger logger = null)
+        public void Execute<TRequest>(string dllName, TRequest param, ILogger logger = null)
         {
             var exists = PluginLoaders.FirstOrDefault(m => m.DllName == dllName);
             if (exists != null)
@@ -95,13 +95,9 @@ namespace JPlugin
                                 if (plugin.PreExecute())
                                 {
                                     // main execute
-                                    var result = plugin.Execute();
-
+                                    plugin.Execute();
                                     // after execute (need modify data)
                                     plugin.AfterExecute();
-
-                                    // return result;
-                                    return result;
                                 }
                         }
                         //Console.WriteLine($"Created plugin instance '{plugin.Run("seokwon")}'.");
@@ -113,8 +109,6 @@ namespace JPlugin
                 }
 
             if (logger != null) logger.Log(LogLevel.Information, $"{dllName} is not found");
-
-            return null;
         }
     }
 }

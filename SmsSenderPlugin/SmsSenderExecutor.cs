@@ -19,10 +19,9 @@ namespace SmsSenderPlugin
             return true;
         }
 
-        public object Execute()
+        public void Execute()
         {
             Console.WriteLine("sms sender execute");
-            return null;
         }
 
         public bool AfterExecute()

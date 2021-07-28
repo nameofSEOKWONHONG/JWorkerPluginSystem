@@ -19,10 +19,9 @@ namespace KakaoSenderPlugin
             return true;
         }
 
-        public object Execute()
+        public void Execute()
         {
             Console.WriteLine("kakao sender execute");
-            return null;
         }
 
         public bool AfterExecute()

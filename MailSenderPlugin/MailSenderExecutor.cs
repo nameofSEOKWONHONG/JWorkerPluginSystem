@@ -26,11 +26,9 @@ namespace MailSenderPlugin
             return true;
         }
 
-        public object Execute()
+        public void Execute()
         {
             Console.WriteLine("Mail Sender : Execute");
-            throw new Exception("Test Mail Sender Exception");
-            return null;
         }
 
         public bool AfterExecute()
