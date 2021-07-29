@@ -5,7 +5,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\eXtensionSharp\src\eXtensionSharp.csproj" />
       <ProjectReference Include="..\JPlugin\JPlugin.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="RestSharp" Version="106.12.0" />
     </ItemGroup>
 
 </Project>
