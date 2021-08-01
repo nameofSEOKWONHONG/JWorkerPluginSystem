@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace JPlugin
@@ -30,9 +31,14 @@ namespace JPlugin
             return false;
         }
 
-        public void Execute<TRequest>(string dllName, TRequest param, ILogger logger = null)
+        public void Execute<TRequest>(string dllName, TRequest param, ILogger logger)
         {
             _pluginLoader.Execute(dllName, param, logger);
+        }
+
+        public async Task ExecuteAsync<TRequest>(string dllName, TRequest param, ILogger logger)
+        {
+            await _pluginLoader.ExecuteAsync(dllName, param, logger);
         }
     }
 }

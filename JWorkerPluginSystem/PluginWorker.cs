@@ -36,7 +36,7 @@ namespace JWorkerPluginSystem
                         JPluginLoaderInstance.PluginLoader.Execute(setting.DllName, false, _logger);
                     }
                 });
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                _logger.LogInformation($"Worker running at: {DateTimeOffset.Now}");
                 await Task.Delay(1000, stoppingToken);
             }
         }

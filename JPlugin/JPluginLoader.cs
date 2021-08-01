@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using McMaster.NETCore.Plugins;
 using Microsoft.Extensions.Logging;
 
@@ -71,7 +72,7 @@ namespace JPlugin
             return false;
         }
 
-        public void Execute<TRequest>(string dllName, TRequest param, ILogger logger = null)
+        public void Execute<TRequest>(string dllName, TRequest param, ILogger logger)
         {
             var exists = PluginLoaders.FirstOrDefault(m => m.DllName == dllName);
             if (exists != null)
@@ -83,7 +84,7 @@ namespace JPlugin
                         .Where(t => typeof(IPlugin).IsAssignableFrom(t) && !t.IsAbstract))
                     {
                         // This assumes the implementation of IPlugin has a parameterless constructor
-                        var plugin = (IPlugin) Activator.CreateInstance(pluginType);
+                        var plugin = (IPlugin) Activator.CreateInstance(pluginType, logger);
                         if (plugin != null)
                         {
                             //set request data
@@ -109,6 +110,11 @@ namespace JPlugin
                 }
 
             if (logger != null) logger.Log(LogLevel.Information, $"{dllName} is not found");
+        }
+
+        public async Task ExecuteAsync<TRequest>(string dllName, TRequest param, ILogger logger)
+        {
+            await Task.Run(() => this.Execute(dllName, param, logger));
         }
     }
 }
