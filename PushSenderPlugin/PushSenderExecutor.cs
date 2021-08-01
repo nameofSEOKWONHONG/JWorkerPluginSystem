@@ -3,15 +3,17 @@ using System.Data;
 using JPlugin;
 using JWLibrary.Database;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
 using RepoDb;
 
 namespace PushSenderPlugin
 {
     public class PushSenderExecutor : IPlugin
     {
-        public PushSenderExecutor()
+        private readonly ILogger _logger;
+        public PushSenderExecutor(ILogger logger)
         {
-            
+            this._logger = logger;
         }
 
         public void SetRequest<TRequest>(TRequest request)
