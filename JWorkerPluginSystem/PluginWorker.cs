@@ -26,15 +26,7 @@ namespace JWorkerPluginSystem
             {
                 _pluginSettings.xPararellForEach(setting =>
                 {
-                    if (JPluginLoaderInstance.PluginLoader.Exists(setting.DllName))
-                    {
-                        JPluginLoaderInstance.PluginLoader.Execute(setting.DllName, false, _logger);
-                    }
-                    else
-                    {
-                        JPluginLoaderInstance.PluginLoader.AddLoader(setting.DllName);
-                        JPluginLoaderInstance.PluginLoader.Execute(setting.DllName, false, _logger);
-                    }
+                    JPluginLoaderInstance.PluginLoader.Execute(setting.DllName, false, _logger);
                 });
                 _logger.LogInformation($"Worker running at: {DateTimeOffset.Now}");
                 await Task.Delay(1000, stoppingToken);

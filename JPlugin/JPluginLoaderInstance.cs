@@ -18,12 +18,12 @@ namespace JPlugin
 
         public static JPluginLoaderInstance PluginLoader => jPluginLoader.Value;
 
-        public bool AddLoader(string dllName)
+        private bool AddLoader(string dllName)
         {
             return _pluginLoader.AddLoader(dllName);
         }
 
-        public bool Exists(string dllName)
+        private bool IsExistsPlugin(string dllName)
         {
             var exists = _pluginLoader.PluginLoaders.FirstOrDefault(m => m.DllName == dllName);
             if (exists != null) return true;
@@ -33,6 +33,11 @@ namespace JPlugin
 
         public void Execute<TRequest>(string dllName, TRequest param, ILogger logger)
         {
+            var exists = this.IsExistsPlugin(dllName);
+            if (!exists)
+            {
+                this.AddLoader(dllName);
+            }
             _pluginLoader.Execute(dllName, param, logger);
         }
 
